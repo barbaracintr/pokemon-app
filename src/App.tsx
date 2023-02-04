@@ -1,7 +1,12 @@
-function App() {
-  return (
-    <></>
-  );
-}
+import { Form } from "./components/Form"
+import { GlobalStyle } from "./components/styles/global"
 
-export default App;
+export const App: React.FC = () => {
+
+  return (
+    <>
+      <GlobalStyle />
+      <Form />
+    </>
+  )
+}

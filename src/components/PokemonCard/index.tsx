@@ -9,6 +9,8 @@ export const PokemonCard = ({ pokemon, pokemonName }: any) => {
         <>
             {pokemonName !== "" && pokemon.name !== undefined ?
                 <Box>
+                    <span>created by Bárbara Cintra</span>
+
                     <StyledPaper elevation={16}>
                         <StyledTypography>{pokemon?.name?.toUpperCase()}</StyledTypography>
                         <Gif src={pokemon?.sprites?.versions["generation-v"]["black-white"].animated.front_default} />

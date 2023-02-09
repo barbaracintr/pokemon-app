@@ -6,13 +6,12 @@ export const Box = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-
-    span {
-        color: white;
-        font-size: 8px;
-        text-align: right;
-        padding: 0.2rem;
-    }
+`
+export const Created = styled.span`
+    color: white;
+    font-size: 8px;
+    text-align: right;
+    padding: 0.2rem;
 `
 export const StyledPaper = muiStyled.styled(Paper)`
     margin: 0 auto;

@@ -11,6 +11,12 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export const Form = () => {
 
+    const [pokemon, setPokemon] = useState('');
+    const [pokemonName, setPokemonName] = useState('');
+
+    const inputValue = React.useRef<HTMLInputElement>(null);
+    const listName = new Array
+
     const formSchema = yup.object().shape({
         name: yup.string().required("Campo obrigatório"),
     });
@@ -23,16 +29,9 @@ export const Form = () => {
         resolver: yupResolver(formSchema),
     });
 
-
-    const [pokemon, setPokemon] = useState('');
-    const [pokemonName, setPokemonName] = useState('');
-
-    const inputValue = React.useRef<HTMLInputElement>(null);
-
     const onHandleSubmit = () => {
         handleClick()
     };
-    const listName = new Array
 
     const [pokemonList, setPokemonList] = useState([]);
     fetch("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0")
@@ -56,6 +55,8 @@ export const Form = () => {
                 .catch((error) => console.log(`Erro: ${error}`))
         } else if (!listName.includes(pokemonName) && pokemonName !== "") {
             toast.error("Esse pokemon não existe, burro!")
+            setPokemonName("")
+            setPokemon("")
         }
     }, [pokemonName])
 
@@ -63,7 +64,8 @@ export const Form = () => {
         const value = inputValue.current?.value.toLowerCase();
         if (value) {
             setPokemonName(value)
-        } else {
+        } 
+        else {
             setPokemonName("")
         }
     };
@@ -72,13 +74,14 @@ export const Form = () => {
         <Container>
             <FormPoke onSubmit={handleSubmit(onHandleSubmit)}>
                 <StyledTextField
+                    autoComplete='on'
                     error={!!errors.name}
                     helperText={errors.name?.message?.toString()}
                     {...register("name")}
                     color="secondary"
                     size="small"
                     variant="filled"
-                    label="Digite o nome do pokemon..."
+                    label="Digite o nome do pokemon"
                     inputRef={inputValue}
                 />
                 <Button
@@ -90,7 +93,7 @@ export const Form = () => {
                 </Button>
             </FormPoke>
 
-            <PokemonCard pokemon={pokemon} listName={listName} />
+            <PokemonCard pokemon={pokemon} pokemonName={pokemonName} />
         </Container>
     )
 }

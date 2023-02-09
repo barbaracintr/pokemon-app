@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material'
-import { Box, StyledTypography, StyledPaper, Gif, Details, Summary, Img } from './styles'
+import { Box, StyledTypography, StyledPaper, Gif, Details, Created, Summary, Img } from './styles'
 
 export const PokemonCard = ({ pokemon, pokemonName }: any) => {
 
@@ -9,7 +9,7 @@ export const PokemonCard = ({ pokemon, pokemonName }: any) => {
         <>
             {pokemonName !== "" && pokemon.name !== undefined ?
                 <Box>
-                    <span>created by Bárbara Cintra</span>
+                    <Created>created by Bárbara Cintra</Created>
 
                     <StyledPaper elevation={16}>
                         <StyledTypography>{pokemon?.name?.toUpperCase()}</StyledTypography>

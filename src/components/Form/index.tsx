@@ -81,7 +81,7 @@ export const Form = () => {
                     color="secondary"
                     size="small"
                     variant="filled"
-                    label="Digite o nome do pokemon"
+                    label="Digite o nome do pokémon"
                     inputRef={inputValue}
                 />
                 <Button

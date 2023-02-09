@@ -1,45 +1,96 @@
 import { useState, useEffect } from 'react'
 import React, { MouseEvent, useContext } from "react";
 import { PokemonCard } from '../PokemonCard';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { Container, FormPoke } from './styles'
+import { Container, FormPoke, StyledTextField } from './styles'
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Form = () => {
-    const [pokemons, setPokemons] = useState('');
-    const [pokemon, setPokemon] = useState('');
 
+    const formSchema = yup.object().shape({
+        name: yup.string().required("Campo obrigatório"),
+    });
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        resolver: yupResolver(formSchema),
+    });
+
+
+    const [pokemon, setPokemon] = useState('');
+    const [pokemonName, setPokemonName] = useState('');
 
     const inputValue = React.useRef<HTMLInputElement>(null);
 
-    const handleSubmit = (ev: MouseEvent<HTMLFormElement>) => {
-        ev.preventDefault();
-        const value = inputValue.current?.value.toLowerCase();
-        if (value) return setPokemon(value)
+    const onHandleSubmit = () => {
+        handleClick()
     };
+    const listName = new Array
 
+    const [pokemonList, setPokemonList] = useState([]);
+    fetch("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0")
+        .then((res) => {
+            res.json().then((data) => {
+                setPokemonList(data.results)
+            })
+        })
+        .catch((error) => console.log(`Erro: ${error}`))
 
     useEffect(() => {
-        fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
-            .then((res) => {
-                res.json().then((data) => {
-                    setPokemons(data)
+        pokemonList?.forEach((poke: any) => listName.push(poke.name))
+
+        if (listName.includes(pokemonName)) {
+            fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
+                .then((res) => {
+                    res.json().then((data) => {
+                        setPokemon(data)
+                    })
                 })
-            })
-            .catch((error) => console.log(error))
-            .finally(() => {
-                console.log('Finally!')
-            })
-    }, [pokemon])
+                .catch((error) => console.log(`Erro: ${error}`))
+        } else if (!listName.includes(pokemonName) && pokemonName !== "") {
+            toast.error("Esse pokemon não existe, burro!")
+        }
+    }, [pokemonName])
+
+    const handleClick = () => {
+        const value = inputValue.current?.value.toLowerCase();
+        if (value) {
+            setPokemonName(value)
+        } else {
+            setPokemonName("")
+        }
+    };
 
     return (
         <Container>
-            <FormPoke onSubmit={handleSubmit}>
-                <TextField label="Insira o nome do pokemon" inputRef={inputValue}></TextField>
-                <Button type='submit'>Enter</Button>
+            <FormPoke onSubmit={handleSubmit(onHandleSubmit)}>
+                <StyledTextField
+                    error={!!errors.name}
+                    helperText={errors.name?.message?.toString()}
+                    {...register("name")}
+                    color="secondary"
+                    size="small"
+                    variant="filled"
+                    label="Digite o nome do pokemon..."
+                    inputRef={inputValue}
+                />
+                <Button
+                    color="secondary"
+                    variant="contained"
+                    type='submit'
+                    onClick={handleClick}>
+                    <span className="material-symbols-outlined">search</span>
+                </Button>
             </FormPoke>
 
-            <PokemonCard pokemons={pokemons}/>
+            <PokemonCard pokemon={pokemon} listName={listName} />
         </Container>
     )
 }

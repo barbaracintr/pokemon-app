@@ -1,15 +1,27 @@
-import Typography from "@mui/material/Typography"
-import { StyledPaper, Img } from './styles'
+import { Typography } from '@mui/material'
+import { Box, StyledTypography, StyledPaper, Gif, Details, Summary, Img } from './styles'
 
-export const PokemonCard = ({ pokemons }: any) => {
+export const PokemonCard = ({ pokemon, listName }: any) => {
+
+    const typeInfo = pokemon.types?.map((_: any, index: number) => _.type.name)
 
     return (
         <>
-            {pokemons.name ?
-                <StyledPaper elevation={3}>
-                    <Img src={pokemons.sprites?.front_default} />
-                    <Typography component="p">{pokemons.name.toUpperCase()}</Typography>
-                </StyledPaper>
+            {pokemon.name ?
+                <Box>
+                    <StyledPaper elevation={16}>
+                        <StyledTypography>{pokemon.name.toUpperCase()}</StyledTypography>
+                        <Gif src={pokemon.sprites?.versions["generation-v"]["black-white"].animated.front_default} />
+                        <span>{typeInfo.join(" | ")}</span>
+
+                        <Details>
+                            <Summary>
+                                official art
+                            </Summary>
+                            <Img src={pokemon?.sprites?.other["official-artwork"]?.front_shiny} />
+                        </Details>
+                    </StyledPaper>
+                </Box>
                 : null}
         </>
     )

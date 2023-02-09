@@ -29,7 +29,6 @@ export const StyledPaper = muiStyled.styled(Paper)`
         border-top: 1px solid #c3c3c3;
     }
 
-    
     @media only screen and (max-width: 600px) {
         width: 80vw;
     }

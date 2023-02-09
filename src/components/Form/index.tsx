@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react'
-import React, { MouseEvent, useContext } from "react";
+import React, { useState, useEffect } from 'react'
 import { PokemonCard } from '../PokemonCard';
 import Button from '@mui/material/Button';
 import { Container, FormPoke, StyledTextField } from './styles'
@@ -13,6 +12,7 @@ export const Form = () => {
 
     const [pokemon, setPokemon] = useState('');
     const [pokemonName, setPokemonName] = useState('');
+    const [pokemonList, setPokemonList] = useState([]);
 
     const inputValue = React.useRef<HTMLInputElement>(null);
     const listName = new Array
@@ -29,11 +29,6 @@ export const Form = () => {
         resolver: yupResolver(formSchema),
     });
 
-    const onHandleSubmit = () => {
-        handleClick()
-    };
-
-    const [pokemonList, setPokemonList] = useState([]);
     fetch("https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0")
         .then((res) => {
             res.json().then((data) => {
@@ -60,11 +55,16 @@ export const Form = () => {
         }
     }, [pokemonName])
 
+    
+    const onHandleSubmit = () => {
+        handleClick()
+    };
+    
     const handleClick = () => {
         const value = inputValue.current?.value.toLowerCase();
         if (value) {
             setPokemonName(value)
-        } 
+        }
         else {
             setPokemonName("")
         }
@@ -89,11 +89,17 @@ export const Form = () => {
                     variant="contained"
                     type='submit'
                     onClick={handleClick}>
-                    <span className="material-symbols-outlined">search</span>
+                    <span
+                        className="material-symbols-outlined">
+                        search
+                    </span>
                 </Button>
             </FormPoke>
 
-            <PokemonCard pokemon={pokemon} pokemonName={pokemonName} />
+            <PokemonCard
+                pokemon={pokemon}
+                pokemonName={pokemonName}
+            />
         </Container>
     )
 }

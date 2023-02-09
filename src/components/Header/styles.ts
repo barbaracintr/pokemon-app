@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import * as muiStyled from '@mui/material'
 
 export const HeaderBox = styled.header`
     height: 10vh;

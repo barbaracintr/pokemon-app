@@ -28,8 +28,6 @@ export const GlobalStyle = createGlobalStyle`
     body{
         margin: 0 auto;
         background-image: linear-gradient(to right, #ef32d9, #89fffd);
-        // width: 100vh;
-        // height: 100vh;
     }
     ::selection {
         background-color: pink;

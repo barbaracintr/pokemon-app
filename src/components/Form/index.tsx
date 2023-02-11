@@ -49,7 +49,7 @@ export const Form = () => {
                 })
                 .catch((error) => console.log(`Erro: ${error}`))
         } else if (!listName.includes(pokemonName) && pokemonName !== "") {
-            toast.error("Esse pokemon não existe, burro!")
+            toast.error("Pokémon não encontrado. Tente novamente.")
             setPokemonName("")
             setPokemon("")
         }
